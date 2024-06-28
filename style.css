@@ -3,9 +3,10 @@ body {
 }
 
 #outer-box {
-    width: 700px;
+    width: 500px;
     margin:45px auto;
     background: #ffffff;
     border-radius: 0.5em;
     border: 1px solid #d3d3d3;
+
 }
