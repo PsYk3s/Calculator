@@ -45,6 +45,9 @@ const update = () => {
 
 //If new operator, just select operator else take solution as first number and assign new operation
 const operatorSelect = (operant) => {
+    if (firstNum && secondNum && operant) {
+        equals()
+    }
     if (firstNum) {
         if (!solved) {
             operator = operant;
