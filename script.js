@@ -29,7 +29,14 @@ let solved = false;
 const sum = (a, b) => Number(a) + Number(b);
 const subtract = (a, b) => Number(a) - Number(b);
 const multiply = (a, b) => Number(a) * Number(b);
-const divide = (a, b) => Number(a) / Number(b);
+const divide = (a, b) => {
+    if (a == "0" || b == "0") {
+        clear()
+        displayFormula.innerText = "Don't do that."
+        return
+    }
+    return Number(a) / Number(b)
+}
 
 //Display formula as we go
 const update = () => {
@@ -42,7 +49,9 @@ const operatorSelect = (operant) => {
         if (!solved) {
             operator = operant;
         } else {
-            firstNum = solution;
+            solution == Math.floor(solution) ?
+            firstNum = solution :
+            firstNum = solution.toFixed(2);
             operator = operant;
             secondNum = "";
             solved = false;
@@ -59,12 +68,18 @@ const operation = (a) => {
     }
 
     if (!operator) {
-        firstNum += a
+        if (a == "." && firstNum.includes(".")) {
+            return
+        }
+        firstNum += a;
     } else {
-        secondNum += a
-    }
+        if (a == "." && secondNum.includes(".")) {
+            return
+        }
+        secondNum += a;
+    };
     update()
-}
+};
 
 //Equals operation triggers solved variable and sanitises decimals if existing
 const equals = () => {
@@ -85,9 +100,9 @@ const equals = () => {
             default:
                 break;
         }
-        solution == Math.floor(solution) ? 
-        displaySolution.innerText = solution : 
-        displaySolution.innerText = solution.toFixed(2);
+        solution == Math.floor(solution) ?
+            displaySolution.innerText = solution :
+            displaySolution.innerText = solution.toFixed(2);
         solved = true;
     }
 }
