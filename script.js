@@ -1,9 +1,9 @@
-const sumBtn = document.getElementById("sum").addEventListener("click", () => { operator = "+"; update() });
-const subtractBtn = document.getElementById("subtract").addEventListener("click", () => { operator = "-"; update() });
-const multiplyBtn = document.getElementById("multiply").addEventListener("click", () => { operator = "*"; update() });
-const divideBtn = document.getElementById("divide").addEventListener("click", () => { operator = "/"; update() });
-const equalsBtn = document.getElementById("result").addEventListener("click", () => solution = equals());
-const clearBtn = document.getElementById("clear").addEventListener("click", () => solution = clear());
+const sumBtn = document.getElementById("sum").addEventListener("click", () => operatorSelect("+"));
+const subtractBtn = document.getElementById("subtract").addEventListener("click", () => operatorSelect("-"));
+const multiplyBtn = document.getElementById("multiply").addEventListener("click", () => operatorSelect("*"));
+const divideBtn = document.getElementById("divide").addEventListener("click", () => operatorSelect("/"));
+const equalsBtn = document.getElementById("result").addEventListener("click", () => equals());
+const clearBtn = document.getElementById("clear").addEventListener("click", () => clear());
 const displaySolution = document.getElementById("solution");
 const displayFormula = document.getElementById("formula");
 
@@ -31,14 +31,33 @@ const subtract = (a, b) => Number(a) - Number(b);
 const multiply = (a, b) => Number(a) * Number(b);
 const divide = (a, b) => Number(a) / Number(b);
 
+//Display formula as we go
 const update = () => {
     displayFormula.innerText = firstNum + " " + operator + " " + secondNum
 }
 
+//If new operator, just select operator else take solution as first number and assign new operation
+const operatorSelect = (operant) => {
+    if (firstNum) {
+        if (!solved) {
+            operator = operant;
+        } else {
+            firstNum = solution;
+            operator = operant;
+            secondNum = "";
+            solved = false;
+        }
+    }
+    update()
+}
+
+//Check if solved then either start a new operation if true or/and -->
+//Concatenate to first number or second number depending on if an operator exists.
 const operation = (a) => {
     if (solved) {
         clear()
     }
+
     if (!operator) {
         firstNum += a
     } else {
@@ -47,6 +66,7 @@ const operation = (a) => {
     update()
 }
 
+//Equals operation triggers solved variable and sanitises decimals if existing
 const equals = () => {
     if (operator && firstNum && secondNum) {
         switch (operator) {
@@ -65,11 +85,14 @@ const equals = () => {
             default:
                 break;
         }
-        displaySolution.innerText = solution
+        solution == Math.floor(solution) ? 
+        displaySolution.innerText = solution : 
+        displaySolution.innerText = solution.toFixed(2);
         solved = true;
     }
 }
 
+//Reset button
 const clear = () => {
     firstNum = "";
     operator = "";
