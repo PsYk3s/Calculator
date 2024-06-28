@@ -1,7 +1,7 @@
-const sumBtn = document.getElementById("sum").addEventListener("click", () => operator = "+");
-const subtractBtn = document.getElementById("subtract").addEventListener("click", () => operator = "-");
-const multiplyBtn = document.getElementById("multiply").addEventListener("click", () => operator = "*");
-const divideBtn = document.getElementById("divide").addEventListener("click", () => operator = "/");
+const sumBtn = document.getElementById("sum").addEventListener("click", () => { operator = "+"; update() });
+const subtractBtn = document.getElementById("subtract").addEventListener("click", () => { operator = "-"; update() });
+const multiplyBtn = document.getElementById("multiply").addEventListener("click", () => { operator = "*"; update() });
+const divideBtn = document.getElementById("divide").addEventListener("click", () => { operator = "/"; update() });
 const equalsBtn = document.getElementById("result").addEventListener("click", () => solution = equals());
 const clearBtn = document.getElementById("clear").addEventListener("click", () => solution = clear());
 const displaySolution = document.getElementById("solution");
@@ -24,18 +24,27 @@ let operator = "";
 let secondNum = "";
 let solution = 0;
 
+let solved = false;
+
 const sum = (a, b) => Number(a) + Number(b);
 const subtract = (a, b) => Number(a) - Number(b);
 const multiply = (a, b) => Number(a) * Number(b);
 const divide = (a, b) => Number(a) / Number(b);
 
+const update = () => {
+    displayFormula.innerText = firstNum + " " + operator + " " + secondNum
+}
+
 const operation = (a) => {
+    if (solved) {
+        clear()
+    }
     if (!operator) {
         firstNum += a
     } else {
         secondNum += a
     }
-    displayFormula.innerText = firstNum + " " + operator + " " + secondNum
+    update()
 }
 
 const equals = () => {
@@ -57,6 +66,7 @@ const equals = () => {
                 break;
         }
         displaySolution.innerText = solution
+        solved = true;
     }
 }
 
@@ -65,6 +75,7 @@ const clear = () => {
     operator = "";
     secondNum = "";
     solution = "0";
-    displayFormula.innerText = "";
+    solved = false;
+    displayFormula.innerText = "-";
     displaySolution.innerText = "0"
 }
