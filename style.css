@@ -2,7 +2,7 @@ body {
     background: #f1f1f1;
 }
 
-.outer-box {
+#outer-box {
     width: 700px;
     margin:45px auto;
     background: #ffffff;
